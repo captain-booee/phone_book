@@ -1,5 +1,4 @@
-from app.init import db
-from app import login_manager
+from app.init import db,login_manager
 from flask_login import UserMixin
 
 
