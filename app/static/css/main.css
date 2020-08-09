@@ -1,0 +1,20 @@
+.nav-wrapper{
+    background-color:steelblue;
+}
+.login-bg{
+    background: url("/static/backgrounds/login_bg.jpg");
+    background-size: cover;
+}
+.login-panel{
+    background-color:#fff;
+    padding-bottom: 20px !important;
+    padding-top: 20px !important;
+    border-radius:7px;
+}
+.search-panel{
+    background-color:#fff;
+    margin-top:35px;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+    border-radius:7px;
+}

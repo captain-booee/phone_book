@@ -8,7 +8,7 @@
 </div>
 
 <div class="row" style="text-align:center;">
-        <form class="col s6 offset-s3" action="" method="post">
+        <form class="col s6 offset-s3 login-panel" action="" method="post">
             {{ form.hidden_tag() }}
 
             <div class="input-field col s12">
@@ -23,7 +23,6 @@
                     {% else %}
                         {{ form.email(class="validate",id="email") }}
                     {% endif %}
-
             </div>
 
             <div class="input-field col s12">

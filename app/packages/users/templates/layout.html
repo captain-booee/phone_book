@@ -7,26 +7,42 @@
         {% endif %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
     </head>
-    <body>
-         <nav>
+    <body class="login-bg">
+        <nav>
             <div class="nav-wrapper">
-              <a href="#!" class="brand-logo">Logo</a>
-              <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+              <a href="#" class="brand-logo">Logo</a>
+              <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars" aria-hidden="true"></i></a>
               <ul class="right hide-on-med-and-down">
-                <li><a href="{{ url_for('users.home') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('users.logout') }}">logout</a></li>
+                  <li><a href="{{ url_for('users.profile') }}">profile</a></li>
+                <img src="images/yuna.jpg" alt="" class="circle responsive-img">
+                {% else %}
                 <li><a href="{{ url_for('users.register') }}">register</a></li>
                 <li><a href="{{ url_for('users.login') }}">login</a></li>
+                {% endif %}
+                  <li><a href="{{ url_for('users.home') }}"><i class="fa fa-home" aria-hidden="true"></i></a></li>
               </ul>
             </div>
-          </nav>
+        </nav>
 
           <ul class="sidenav" id="mobile-demo">
-                <li><a href="{{ url_for('users.home') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('users.logout') }}">logout</a></li>
+                <li><a href="{{ url_for('users.profile') }}">profile</a></li>
+                <img src="images/yuna.jpg" alt="" class="circle responsive-img">
+
+                {% else %}
                 <li><a href="{{ url_for('users.register') }}">register</a></li>
                 <li><a href="{{ url_for('users.login') }}">login</a></li>
+                {% endif %}
+              <li><a href="{{ url_for('users.home') }}"><i class="fa fa-home" aria-hidden="true"></i></a></li>
           </ul>
+
+
 
 
 
@@ -41,7 +57,9 @@
             {% endif %}
         {% endwith %}
         <div class="container">
-            {% block content %}{% endblock %}
+            {% block content %}
+
+            {% endblock %}
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -49,9 +67,10 @@
         <script>
           $(document).ready(function(){
             $('.sidenav').sidenav();
+            $('.modal').modal();
+            $('.sidenav').sidenav();
           });
         </script>
     </body>
-
 
 </html>
