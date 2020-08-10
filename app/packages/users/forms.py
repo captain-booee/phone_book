@@ -36,3 +36,10 @@ class EditUserForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('the Email already exist!')
+
+
+class ContactForm(FlaskForm):
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('first_name', validators=[DataRequired()])
+    phone_number = StringField('phone_number', validators=[DataRequired()])
+    submit = SubmitField('Submit')

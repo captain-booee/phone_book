@@ -18,3 +18,23 @@
     padding-top: 10px !important;
     border-radius:7px;
 }
+table{
+    background-color:#fff;
+    margin-top:35px;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+    border-radius:7px;
+}
+nav.nav-center ul {
+    text-align: center;
+}
+nav.nav-center ul li {
+    display: inline;
+    float: none;
+}
+nav.nav-center ul li a {
+    display: inline-block;
+}
+.nav-center{
+    background-color:steelblue;
+}

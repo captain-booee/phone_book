@@ -1,10 +1,10 @@
 import os
 import secrets
 from PIL import Image
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, abort
 from .models import User, Contact
 from app.init import db, bcrypt
-from .forms import LoginForm, RegistrationForm, SearchForm, EditUserForm
+from .forms import LoginForm, RegistrationForm, SearchForm, EditUserForm, ContactForm
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -13,7 +13,8 @@ bp = Blueprint("users", __name__, template_folder="templates/")
 
 @bp.route('/')
 def home():
-    return render_template('home.html')
+    contacts = Contact.query.all()
+    return render_template('home.html', contacts=contacts)
 
 @bp.route('/register', methods=['GET','POST'])
 def register():
@@ -52,14 +53,20 @@ def logout():
     logout_user()
     return redirect(url_for('users.home'))
 
-@bp.route('/profile')
+@bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     form = SearchForm()
-    #if form.validate_on_submit():
+    newContactForm = ContactForm()
+    if newContactForm.validate_on_submit():
+        contact = Contact(first_name=newContactForm.first_name.data, last_name=newContactForm.last_name.data, phone_number=newContactForm.phone_number.data, contact=current_user)
+        db.session.add(contact)
+        db.session.commit()
 
+        flash('new contact added!')
+        return redirect(url_for('users.profile'))
     image_src = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('profile.html', title='Profile', form=form, image_src=image_src)
+    return render_template('profile.html', title='Profile', form=form, image_src=image_src, newContactForm=newContactForm)
 
 
 def save_picture(form_picture):
@@ -90,3 +97,36 @@ def edit_user():
         form.email.data = current_user.email
     image_src = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('edit_user.html', title='Profile Edit', form=form, image_src=image_src)
+
+@bp.route('/edit_contact/<int:contact_id>', methods=['GET', 'POST'])
+@login_required
+def edit_contact(contact_id):
+    contact = Contact.query.get_or_404(contact_id)
+    if contact.contact != current_user:
+        abort(403)
+    form = ContactForm()
+    if form.validate_on_submit():
+        contact.first_name = form.first_name.data
+        contact.last_name = form.last_name.data
+        contact.phone_number = form.phone_number.data
+        db.session.commit()
+        flash('contact updated!')
+        return redirect(url_for('users.home'))
+    elif request.method == 'GET':
+        form.first_name.data = contact.first_name
+        form.last_name.data = contact.last_name
+        form.phone_number.data = contact.phone_number
+
+    return render_template('edit_contact.html', title='Contact Edit', form=form)
+
+
+@bp.route('/delete_contact/<int:contact_id>', methods=['GET', 'POST'])
+@login_required
+def delete_contact(contact_id):
+    contact = Contact.query.get_or_404(contact_id)
+    if contact.contact != current_user:
+        abort(403)
+    db.session.delete(contact)
+    db.session.commit()
+    flash('contact deleted!')
+    return redirect(url_for('users.home'))

@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <h5 class="col s6 offset-s3" style="text-align:center;">
+        Update contact
+    </h5>
+</div>
+
+
+<div class="row" style="text-align:center;">
+    <form class="col s6 offset-s3 login-panel" action="" method="post">
+        {{ form.hidden_tag() }}
+
+        <div class="input-field col s12">
+            {{ form.first_name.label(for="first_name") }}
+                {% if form.first_name.errors %}
+                    {{ form.first_name(class="validate",id="first_name") }}
+                    {% for error in form.first_name.errors %}
+                    <span class="helper-text red-text" data-error="wrong" data-success="right">
+                        * {{ error }}
+                    </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.first_name(class="validate",id="first_name") }}
+                {% endif %}
+        </div>
+
+        <div class="input-field col s12">
+            {{ form.last_name.label(for="last_name") }}
+                {% if form.last_name.errors %}
+                    {{ form.last_name(class="validate",id="last_name") }}
+                    {% for error in form.last_name.errors %}
+                    <span class="helper-text red-text" data-error="wrong" data-success="right">
+                        * {{ error }}
+                    </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.last_name(class="validate",id="last_name") }}
+                {% endif %}
+        </div>
+
+        <div class="input-field col s12">
+            {{ form.phone_number.label(for="phone_number") }}
+                {% if form.phone_number.errors %}
+                    {{ form.phone_number(class="validate",id="phone_number") }}
+                    {% for error in form.phone_number.errors %}
+                    <span class="helper-text red-text" data-error="wrong" data-success="right">
+                        * {{ error }}
+                    </span>
+                    {% endfor %}
+                {% else %}
+                    {{ form.phone_number(class="validate",id="phone_number") }}
+                {% endif %}
+        </div>
+
+        <div class="input-field col s12" style="margin-top:30px;">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+
+    </form>
+</div>
+
+{% endblock content %}
