@@ -17,6 +17,9 @@ def create_app():
     app.register_blueprint(users.bp)
     return app
 # need to :
+#from app import db, create_app
+#db.create_all(app=create_app())
+
 #from app import db
 #db.create_all()
 
