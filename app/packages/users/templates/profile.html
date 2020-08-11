@@ -1,23 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="row" style="text-align:center;">
-        <form class="col s6 offset-s3 search-panel" action="" method="post">
-            {{ form.hidden_tag() }}
 
-            <div class="input-field col s12">
-                {{ form.last_name.label(for="search") }}
-                {{ form.last_name(class="validate",id="search") }}
-            </div>
 
-            <br>
-            <div class="input-field col s12" style="margin-top:30px;">
-                {{ form.submit(class="btn btn-outline-info") }}
-            </div>
-        </form>
-</div>
-
-<div class="row" style="text-align:center;">
+<div class="row" style="text-align:center;margin-top:35px;">
     <a class="waves-effect waves-light btn btn-large modal-trigger green" href="#modal1"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp; ADD New Contact!</a>
     <a class="btn btn-large waves-effect waves-light blue" href="{{ url_for('users.home') }}"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;List Of Contacts!</a>
     <br><br>
@@ -26,12 +12,14 @@
 
 
 
+
+
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <div class="modal-content">
       <div class="row">
     <h5 class="col s6 offset-s3" style="text-align:center;">
-        Login
+        Create new Contact
     </h5>
 </div>
 
@@ -82,15 +70,12 @@
             </div>
 
             <div class="input-field col s12" style="margin-top:30px;">
-                {{ form.submit(class="btn btn-outline-info") }}
+                {{ newContactForm.submit(class="btn btn-outline-info") }}
             </div>
 
         </form>
 </div>
 
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
   </div>
 
@@ -105,12 +90,12 @@
       <span class="white-text email">{{ current_user.email }}</span>
     </div></li>
 
-    <li><a href="#!">bla bla bla</a></li>
+    <li><a href="{{ url_for('users.edit_user') }}">Edit info</a></li>
 
     <li><div class="divider"></div></li>
 
     <li><a class="subheader">head</a></li>
-    <li><a class="waves-effect" href="#!">blah blah</a></li>
+    <li><a class="waves-effect" href="#!">comming soon!</a></li>
   </ul>
 
 

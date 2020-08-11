@@ -11,10 +11,19 @@ from flask_login import login_user, current_user, logout_user, login_required
 bp = Blueprint("users", __name__, template_folder="templates/")
 
 
-@bp.route('/')
+@bp.route('/', methods=['GET','POST'])
 def home():
-    contacts = Contact.query.all()
-    return render_template('home.html', contacts=contacts)
+    form = SearchForm()
+    if current_user.is_authenticated:
+        if form.validate_on_submit():
+            contacts = Contact.query.filter_by(last_name=form.last_name.data).filter_by(user_id=current_user.id).all()
+            #contacts = Contact.query.filter_by(last_name=form.last_name.data).all()
+        else:
+            contacts = Contact.query.filter_by(user_id=current_user.id).all()
+        return render_template('home.html', contacts=contacts, form=form)
+    else:
+        return render_template('home.html', form=form)
+
 
 @bp.route('/register', methods=['GET','POST'])
 def register():
@@ -56,8 +65,8 @@ def logout():
 @bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    form = SearchForm()
     newContactForm = ContactForm()
+
     if newContactForm.validate_on_submit():
         contact = Contact(first_name=newContactForm.first_name.data, last_name=newContactForm.last_name.data, phone_number=newContactForm.phone_number.data, contact=current_user)
         db.session.add(contact)
@@ -66,7 +75,7 @@ def profile():
         flash('new contact added!')
         return redirect(url_for('users.profile'))
     image_src = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('profile.html', title='Profile', form=form, image_src=image_src, newContactForm=newContactForm)
+    return render_template('profile.html', title='Profile', image_src=image_src, newContactForm=newContactForm)
 
 
 def save_picture(form_picture):

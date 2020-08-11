@@ -1,8 +1,26 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="row" style="text-align:center;">
+        <form class="col s6 offset-s3 search-panel" action="" method="post">
+            {{ form.hidden_tag() }}
+
+            <div class="input-field col s12">
+                {{ form.last_name.label(for="search") }}
+                {{ form.last_name(class="validate",id="search") }}
+            </div>
+
+            <br>
+            <div class="input-field col s12" style="margin-top:30px;">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+</div>
+
+
 
 <table class="highlight centered">
+    {% if contacts %}
         <thead>
           <tr>
               <th>First name</th>
@@ -12,7 +30,7 @@
               <th>Edit</th>
           </tr>
         </thead>
-
+    {% endif %}
         <tbody>
         {% for contact in contacts %}
           <tr>
@@ -25,5 +43,8 @@
         {% endfor %}
         </tbody>
       </table>
+
+
+
 
 {% endblock content %}
